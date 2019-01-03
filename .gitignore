@@ -8,12 +8,10 @@ target/**
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 target
-ui/.tmp/
-
+out/
 
 .project
 .settings/
@@ -34,7 +32,6 @@ ui/tmp
 derby.log
 metastore_db
 
-measure/src/test/test_scala/*
 
 .vscode
 
