@@ -1,9 +1,6 @@
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
@@ -20,11 +17,15 @@ public class QuestionnaireExcel {
     //统计同一个用户的所有问卷，key对应表格orderNum，value为相同orderNum对应的所有行
     private Map<Integer, List<Row>> userRowsMap;
 
+    //用于记录titleKey对应行所在的列
+    private Map<Integer, Integer> titleCellIndexMap;
+
     public QuestionnaireExcel(String fileUrl, String saveUrl) {
         this.fileUrl = fileUrl;
         this.saveUrl = saveUrl;
         questionnaireMap = new TreeMap<>();
         userRowsMap = new HashMap<>();
+        titleCellIndexMap = new HashMap<>();
     }
 
 
@@ -32,7 +33,6 @@ public class QuestionnaireExcel {
      * 将修改后的Excel存储到本地
      *
      * @param workbook Workbook
-     * @throws IOException io exception
      */
     void writeExcelToLocal(Workbook workbook) {
         System.out.println("正在保存数据……");
@@ -71,6 +71,10 @@ public class QuestionnaireExcel {
     void setProcessedSheet(Sheet sheet) {
         int position = 1;
         for (Map.Entry<Integer, List<Row>> entry : userRowsMap.entrySet()) {
+            int process = getProcessPercentage(position + userRowsMap.size(), userRowsMap.size() * 2);
+            if (process != -1) {
+                System.out.println("已处理:" + process + "%");
+            }
             List<Row> rows = entry.getValue();
             Row row = createSheetRow(sheet, position);
             position = setBasicInfo(position, rows, row);
@@ -118,12 +122,20 @@ public class QuestionnaireExcel {
      */
     private void setAnswers(List<Row> rows, Row row) {
         for (Row r : rows) {
-            String titleKey = r.getCell(10).getStringCellValue();
-            String answer = r.getCell(12).getStringCellValue();
+            Cell cellKey = r.getCell(10);
+            Cell cellAnswerBefore = r.getCell(12);
+            String titleKey = cellKey != null ? cellKey.getStringCellValue() : null;
+            String answer = cellAnswerBefore != null ? cellAnswerBefore.getStringCellValue() : null;
             if (titleKey == null || answer == null) {
                 continue;
             }
-            row.getCell(Integer.valueOf(titleKey) + QUESTIONNAIRE_BORDER - 1).setCellValue(answer);
+            Integer index = titleCellIndexMap.get(Integer.valueOf(titleKey));
+            Cell cellAnswerAfter = index != null ? row.getCell(index) : null;
+            if (cellAnswerAfter != null) {
+                cellAnswerAfter.setCellValue(answer);
+            } else {
+                System.out.println("请注意可能存在问卷调查题目不完全，导致处理后不匹配的问题");
+            }
         }
     }
 
@@ -172,9 +184,9 @@ public class QuestionnaireExcel {
     void statisticQuestionnairesAndUserRows(Sheet sheet) {
         int lastRowNum = sheet.getLastRowNum();
         for (int rowNum = 1; rowNum <= lastRowNum; rowNum++) {
-            String process = getProcessPercentage(rowNum + 1, lastRowNum + 1);
-            if (process != null) {
-                System.out.println("已处理:" + process);
+            int process = getProcessPercentage(rowNum + 1, (lastRowNum + 1) * 2);
+            if (process != -1) {
+                System.out.println("已处理:" + process + "%");
             }
             Row row = sheet.getRow(rowNum);
             String titleKey = row.getCell(10).getStringCellValue();
@@ -210,8 +222,11 @@ public class QuestionnaireExcel {
         row.createCell(5).setCellValue("提交类型");
         row.createCell(6).setCellValue("访问方式");
         int count = 7;
-        for (String title : questionnaireMap.values()) {
-            row.createCell(count++).setCellValue(title);
+        for (Map.Entry<Integer, String> entry : questionnaireMap.entrySet()) {
+            int titleKey = entry.getKey();
+            String titleName = entry.getValue();
+            titleCellIndexMap.put(titleKey, count);
+            row.createCell(count++).setCellValue(titleName);
         }
     }
 
@@ -222,37 +237,37 @@ public class QuestionnaireExcel {
      * @param all 总行数
      * @return 处理百分比
      */
-    private static String getProcessPercentage(int now, int all) {
+    private static int getProcessPercentage(int now, int all) {
         if (now == (int) (all * 0.1)) {
-            return "10%";
+            return 10;
         }
         if (now == (int) (all * 0.2)) {
-            return "20%";
+            return 20;
         }
         if (now == (int) (all * 0.3)) {
-            return "30%";
+            return 30;
         }
         if (now == (int) (all * 0.4)) {
-            return "40%";
+            return 40;
         }
         if (now == (int) (all * 0.5)) {
-            return "50%";
+            return 50;
         }
         if (now == (int) (all * 0.6)) {
-            return "60%";
+            return 60;
         }
         if (now == (int) (all * 0.7)) {
-            return "70%";
+            return 70;
         }
         if (now == (int) (all * 0.8)) {
-            return "80%";
+            return 80;
         }
         if (now == (int) (all * 0.9)) {
-            return "90%";
+            return 90;
         }
         if (now == all) {
-            return "100%";
+            return 100;
         }
-        return null;
+        return -1;
     }
 }
