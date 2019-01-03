@@ -43,3 +43,11 @@
 - fileUrl表示原数据路径，例如/home/root/question.xlsx或C:\question.xlsx
 - saveUrl表示数据处理后保存的路径，例如/home/root/或C:\。
 
+## API参考
+- [How to create a new workbook](http://poi.apache.org/components/spreadsheet/quick-guide.html#NewWorkbook)
+- [How to create a sheet](http://poi.apache.org/components/spreadsheet/quick-guide.html#NewSheet)
+- [How to create cells](http://poi.apache.org/components/spreadsheet/quick-guide.html#CreateCells)
+- [Iterate over rows and cells](http://poi.apache.org/components/spreadsheet/quick-guide.html#Iterator)
+- [Getting the cell contents](http://poi.apache.org/components/spreadsheet/quick-guide.html#CellContents)
+- [Reading and writing](http://poi.apache.org/components/spreadsheet/quick-guide.html#ReadWriteWorkbook)
+
