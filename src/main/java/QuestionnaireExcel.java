@@ -1,5 +1,6 @@
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -183,7 +184,11 @@ public class QuestionnaireExcel {
                 continue;
             }
             questionnaireMap.put(Integer.valueOf(titleKey), titleName);
-            int orderNum = Integer.valueOf(row.getCell(1).getStringCellValue());
+            //fix bug of cannot get a STRING value from a NUMERIC cell
+            DataFormatter formatter = new DataFormatter();
+            String num = formatter.formatCellValue(row.getCell(1));
+            num = num.equals("") ? row.getCell(1).getStringCellValue() : num;
+            int orderNum = Integer.valueOf(num);
             List<Row> rows = userRowsMap.getOrDefault(orderNum, new ArrayList<>());
             rows.add(row);
             userRowsMap.put(orderNum, rows);
