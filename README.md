@@ -51,3 +51,33 @@
 - [Getting the cell contents](http://poi.apache.org/components/spreadsheet/quick-guide.html#CellContents)
 - [Reading and writing](http://poi.apache.org/components/spreadsheet/quick-guide.html#ReadWriteWorkbook)
 
+## 项目构建
+使用maven构建
+- 添加poi依赖，支持xls格式
+```
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+```
+
+- 添加poi-ooxml依赖，支持xlsx格式
+```
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+```
+
+- 如果出现```java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject``` 异常，仍需要添加xmlbeans依赖
+```
+      <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+```
