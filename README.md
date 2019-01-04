@@ -103,7 +103,7 @@
 - Row：行
 - Cell：单元格
 
-如下如所示：
+如下图所示：
 
 ![工作簿](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/workbook_cn.png)
 
