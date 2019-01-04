@@ -1,8 +1,13 @@
 ## 使用Apache POI 读写Excel，支持.xls和.xlsx格式
+
 ### 业务需求
-#### 由于业务上需要处理从数据库中导出的Excel，所以选择开源的Apache POI处理
+- 由于业务上需要处理从数据库中导出的Excel，所以选择开源的Apache POI处理
+
 ### 业务描述
-#### [questionnaire_simple](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/questionnaire_simple.xlsx)文件简要记录了原数据和处理后的数据的样式和字段，在此解释需要处理的核心字段，其余字段均可忽略。[questionnaire_complete](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/questionnaire_complete.xlsx)文件包含了全部的问卷调查样本。
+
+- [questionnaire_simple](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/questionnaire_simple.xlsx)文件简要记录了原数据和处理后的数据的样式和字段，在此解释需要处理的核心字段，其余字段均可忽略。
+- [questionnaire_complete](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/questionnaire_complete.xlsx)文件包含了全部的问卷调查样本。
+
 | field          | meaning            |
 | ------------ | ---------------- |
 | orderNum |   用户提交问卷的编号 |
@@ -17,12 +22,11 @@
 
 | orderNum | submitTime | titleKey | titleName | answer | other |
 | -------- | ------ | ------ | ------ |------ |------ |
-| 79 | 1 | 9/26/2018 18:26:32 | 1.贵行2018年6月末表内资产规模大致范围是? | 3 | …… |
-| 79 | 2 | 9/26/2018 18:26:32 |2.贵行2018年6月末资产管理（含保本理财）规模大致范围是？| 2 | ……|
-| 79 | 3 | 9/26/2018 18:26:32 |3.资管新规后，资管业务面临的最大调整压力是？| 4 | ……|
+| 79 | 9/26/2018 18:26:32 | 1 | 1.贵行2018年6月末表内资产规模大致范围是? | 3 | …… |
+| 79 | 9/26/2018 18:26:32 | 2 |2.贵行2018年6月末资产管理（含保本理财）规模大致范围是？| 2 | ……|
+| 79 | 9/26/2018 18:26:32 | 3 |3.资管新规后，资管业务面临的最大调整压力是？| 4 | ……|
 
 **合并后**
-
 
 | 序号 | 提交时间 | 1.贵行2018年6月末表内资产规模大致范围是?  | 2.贵行2018年6月末资产管理（含保本理财）规模大致范围是？ | 3.资管新规后，资管业务面临的最大调整压力是？ | other |
 | -------- | -------- | ------ | ------ |------ |------ |
@@ -36,8 +40,10 @@
 
 ## 使用
 项目提供了[ExcelPoi.jar](https://github.com/ahutsunshine/ExcelPoi/blob/master/src/main/resources/ExcelPoi.jar)
+
 ### 运行环境
 - JRE1.8或JDK1.8或以上
+
 ### 运行命令
 ```java -jar ExcelPoi.jar fileUrl saveUrl ```
 - fileUrl表示原数据路径，例如/home/root/question.xlsx或C:\question.xlsx
@@ -56,28 +62,29 @@
 - 添加poi依赖，支持xls格式
 ```
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.17</version>
-        </dependency>
+<dependency>
+   <groupId>org.apache.poi</groupId>
+   <artifactId>poi</artifactId>
+   <version>3.17</version>
+</dependency>
 ```
 
 - 添加poi-ooxml依赖，支持xlsx格式
 ```
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.17</version>
-        </dependency>
+<dependency>
+   <groupId>org.apache.poi</groupId>
+   <artifactId>poi-ooxml</artifactId>
+   <version>3.17</version>
+</dependency>
 ```
 
 - 如果出现```java.lang.NoClassDefFoundError: org/apache/xmlbeans/XmlObject``` 异常，仍需要添加xmlbeans依赖
 ```
-      <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>3.0.2</version>
-        </dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans-->
+<dependency>
+   <groupId>org.apache.xmlbeans</groupId>
+   <artifactId>xmlbeans</artifactId>
+   <version>3.0.2</version>
+</dependency>
 ```
