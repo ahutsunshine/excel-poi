@@ -140,7 +140,7 @@
 
 **after merging**
 
-| number | submitTime | 1.question1?  | 2.question2是？ | 3.question3？ | other |
+| number | submitTime | 1.question1?  | 2.question2？ | 3.question3？ | other |
 | -------- | -------- | ------ | ------ |------ |------ |
 | 1 | 9/26/2018 18:26:32 | 3 | 2| 4 | …… |
 
