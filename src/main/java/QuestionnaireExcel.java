@@ -40,6 +40,9 @@ public class QuestionnaireExcel {
         //使用try-with-resource语法
         try (OutputStream out = new FileOutputStream(saveUrl)) {
             workbook.write(out);
+        } catch (NullPointerException n) {
+            System.out.println("保存出错,如果您使用的Excel文件是xls，请尝试将其另存为xlsx格式重新操作");
+            n.printStackTrace();
         } catch (IOException e) {
             System.out.println("保存失败,请关闭正在打开的文件，然后重试");
             System.err.println(e.getMessage());
