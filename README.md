@@ -50,9 +50,10 @@
 - JRE1.8或JDK1.8或以上
 
 ### 运行命令
-```java -jar ExcelPoi.jar fileUrl saveUrl ```
+```java -jar ExcelPoi.jar fileUrl saveUrl saveFileName```
 - fileUrl表示原数据路径，例如/home/root/question.xlsx或C:\question.xlsx
 - saveUrl表示数据处理后保存的路径，例如/home/root/或C:\
+- saveFileName表示最终保存的参数名，可选，如果不填写，则默认处理后的文件名为"原文件名_处理后.xlsx"
 
 ## API参考
 - [How to create a new workbook](http://poi.apache.org/components/spreadsheet/quick-guide.html#NewWorkbook)
@@ -157,9 +158,10 @@ ExcelPoi project provides [ExcelPoi.jar](https://github.com/ahutsunshine/ExcelPo
 - JRE1.8 or JDK1.8 or above
 
 ### Run command
-```java -jar ExcelPoi.jar fileUrl saveUrl ```
+```java -jar ExcelPoi.jar fileUrl saveUrl saveFileName```
 - fileUrl represents the original data path, such as /home/root/question.xlsx or C:\question.xlsx
 - saveUrl represents the path saved after data processing, such as /home/root/ or C:\
+- saveFileName represents file name that is finally saved. Optional.
 
 ## API reference
 - [How to create a new workbook](http://poi.apache.org/components/spreadsheet/quick-guide.html#NewWorkbook)
