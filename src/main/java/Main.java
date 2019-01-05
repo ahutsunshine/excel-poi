@@ -15,8 +15,9 @@ public class Main {
             excel.statisticQuestionnairesAndUserRows(sheet1);
             excel.createSheetRowTitle(sheet2);
             excel.setProcessedSheet(sheet2);
-            excel.writeExcelToLocal(workbook);
-            System.out.println("处理完成");
+            if (excel.saveToLocal(workbook, args)) {
+                System.out.println("处理完成");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -33,36 +33,40 @@ public class QuestionnaireExcel {
      * 将修改后的Excel存储到本地
      *
      * @param workbook Workbook
+     * @param args     程序运行参数，如果有第三个参数则代表保存文件名
+     * @return 保存成功：true，保存失败：false
      */
-    void writeExcelToLocal(Workbook workbook) {
+    boolean saveToLocal(Workbook workbook, String[] args) {
         System.out.println("正在保存数据……");
-        processSaveFileName();
+        processSaveFileName(args);
         //使用try-with-resource语法
         try (OutputStream out = new FileOutputStream(saveUrl)) {
             workbook.write(out);
-        } catch (NullPointerException n) {
-            System.out.println("保存出错,如果您使用的Excel文件是xls，请尝试将其另存为xlsx格式重新操作");
-            n.printStackTrace();
+            return true;
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            System.err.println("保存出错,如果您使用的Excel文件是xls，请尝试将其另存为xlsx格式重新操作");
         } catch (IOException e) {
             System.out.println("保存失败,请关闭正在打开的文件，然后重试");
             System.err.println(e.getMessage());
         }
+        return false;
     }
 
     /**
      * 处理保存文件名，如果输入的路径文件名则是asset_processed.xlsx，
      * 否则按输入文件名称保存
+     *
+     * @param args 程序运行参数，如果有第三个参数则代表保存文件名
      */
-    private void processSaveFileName() {
-        String fileName = FileUtil.getNameIfFileValid(saveUrl);
-        if (fileName == null) {
-            saveUrl += "/asset_processed.xlsx";
+    private void processSaveFileName(String[] args) {
+        String saveFileName;
+        if (args.length >= 3) {
+            saveFileName = args[2];
+            saveUrl += "/" + saveFileName + ".xlsx";
         } else {
-            String[] format = fileName.split("\\.");
-            String suffix = format[format.length - 1];
-            if (!"xls".equals(suffix) && !"xlsx".equals(suffix)) {
-                saveUrl += ".xlsx";
-            }
+            saveFileName = FileUtil.getFileName(fileUrl).split("\\.")[0];
+            saveUrl += "/" + saveFileName + "_处理后.xlsx";
         }
     }
 
